@@ -12,8 +12,8 @@ using masroufiServer.models;
 namespace masroufiServer.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220912172253_dbUpdate")]
-    partial class dbUpdate
+    [Migration("20220912173023_userINterrets")]
+    partial class userINterrets
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -214,6 +214,9 @@ namespace masroufiServer.migrations
                         .HasColumnType("int");
 
                     b.Property<string>("genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("interrets")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -9,6 +9,8 @@ namespace masroufiServer.models
         public int coins { get; set; } = 0;
         public string? genre { get; set; }
 
+        public string? interrets { get; set; }
+
     }
 
     

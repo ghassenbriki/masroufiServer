@@ -213,6 +213,9 @@ namespace masroufiServer.migrations
                     b.Property<string>("genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("interrets")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")

@@ -15,6 +15,9 @@ namespace masroufiServer.apiModels
             public string? password { get; set; }
             [Required]
             public string? genre { get; set; }
+
+            [Required]
+            public string? interrets { get; set; }
         }
 
         public class Response
@@ -29,7 +32,11 @@ namespace masroufiServer.apiModels
 
             public string? genre { get; set; }
 
-            public IEnumerable<IdentityError>? Errors { get; internal set; }
+            public string? interrets { get; set; }
+
+            public IList<string>? role {get; set; }
+
+          
 
         }
 
