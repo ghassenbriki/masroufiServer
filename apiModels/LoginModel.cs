@@ -2,43 +2,31 @@
 
 namespace masroufiServer.apiModels
 {
-    public class RegisterModel
+    public class LoginModel
     {
+
         public class Request
         {
-            [Required]
-            public string? username { get; set; }
-          
-            [Required]
-            public string? password { get; set; }
-            [Required]
-            public string? genre { get; set; }
 
             [Required]
-            public string? interrets { get; set; }
+            public string? username { get; set; }
+
+            [Required]
+            public string? password { get; set; }
+
+
+            
         }
 
         public class Response
-
         {
             public string? token { get; set; }
-
-            public int? coins { get; set; }
-
-            public string? genre { get; set; }
-
-            public string? interrets { get; set; }
-
-            //public IList<string>? role {get; set; }
+            //public IList<string>? role { get; set; }
 
           
-
         }
 
 
-
     }
-      
-
 
 }
