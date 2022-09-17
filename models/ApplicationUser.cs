@@ -11,6 +11,8 @@ namespace masroufiServer.models
 
         public string? interrets { get; set; }
 
+        public string? ville { get; set; }
+
     }
 
     

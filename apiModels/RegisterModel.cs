@@ -16,6 +16,9 @@ namespace masroufiServer.apiModels
 
             [Required]
             public string? interrets { get; set; }
+           
+            [Required]
+            public string? ville { get; set; }
         }
 
         public class Response

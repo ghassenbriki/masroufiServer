@@ -14,6 +14,7 @@ namespace masroufiServer.apiModels
             [Required]
             public string? password { get; set; }
 
+            
 
             
         }

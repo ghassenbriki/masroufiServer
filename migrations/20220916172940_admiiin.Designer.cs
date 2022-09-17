@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using masroufiServer.models;
 
@@ -11,9 +12,11 @@ using masroufiServer.models;
 namespace masroufiServer.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220916172940_admiiin")]
+    partial class admiiin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,9 +235,6 @@ namespace masroufiServer.migrations
                     b.Property<string>("interrets")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ville")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -252,13 +252,13 @@ namespace masroufiServer.migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "39147cfc-6572-48d6-b311-c04f71f14b10",
+                            ConcurrencyStamp = "0c02a863-0bca-4a4a-a315-61e60c98af43",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENU8Q9Mkng0VbcT4tFAByBuzv4S4efNFWp12YSpmmFBeCIBMRNAAK6vIQbwa+bclfQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOtP6BFb5/TfWlJkEPlRO+OLYvLLaoSQqqvQB3RsdB5BVRt31t9pJNzd9QY5CygMxQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "64d819ea-de31-4eee-a527-d53b1b7e4558",
+                            SecurityStamp = "7b43c34c-2da6-4ad7-9b9a-49e5697124ff",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             coins = 0

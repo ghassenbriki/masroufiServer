@@ -46,6 +46,7 @@ namespace masroufiServer.Controllers
                 UserName = requestModel.username,
                 genre = requestModel.genre,
                 interrets = requestModel.interrets,
+                ville=requestModel.ville
 
             };
 
@@ -89,7 +90,7 @@ namespace masroufiServer.Controllers
             else
             {
 
-              responseModel.errorMessages. AddRange(result.Errors.Select(err => err.Description));
+              responseModel.errorMessages.AddRange(result.Errors.Select(err => err.Description));
 
 
             return BadRequest(responseModel) ;
@@ -118,8 +119,7 @@ namespace masroufiServer.Controllers
 
             if (result.Succeeded)
             {
-                /*var userFromDb = await _userManager.FindByNameAsync(requestModel.username);
-                var userRole = await _userManager.GetRolesAsync(userFromDb);*/
+                
 
             
 
@@ -127,7 +127,7 @@ namespace masroufiServer.Controllers
                 responseModel.Response = new LoginModel.Response()
                 {
                     token = await JwtTokenGeneratorMachineAsync(user),
-                   // role= userRole
+                  
                 };
                 
 
@@ -139,6 +139,7 @@ namespace masroufiServer.Controllers
 
             return  BadRequest(responseModel);
         }
+        
 
 
 
