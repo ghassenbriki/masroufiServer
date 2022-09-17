@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using masroufiServer.models;
 
@@ -11,9 +12,11 @@ using masroufiServer.models;
 namespace masroufiServer.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220917135123_mission")]
+    partial class mission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,13 +255,13 @@ namespace masroufiServer.migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3aeec4b2-33ef-4334-9ea7-b4f14239c832",
+                            ConcurrencyStamp = "f2521fb8-dbd7-4630-93be-74a09d59b43b",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7HMZMQStmta8h+LH/I48ZBN/waWLRN3cBJ6kmkou63elHOJTYlyXkn59YY9T6/HA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKVDmr4RLrl5s76LThGhGjpaFosJauaMeX8yDwUfQGF8qesAYwC72hbqomhFeTOb1A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4a5a749-e5c4-4d2f-8517-c5e07a2d7ba7",
+                            SecurityStamp = "6dfd0183-8c2c-4cc0-9dff-8e9b8663edea",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             coins = 0
@@ -352,15 +355,10 @@ namespace masroufiServer.migrations
             modelBuilder.Entity("masroufiServer.models.Mission", b =>
                 {
                     b.HasOne("masroufiServer.models.ApplicationUser", "user")
-                        .WithMany("missions")
+                        .WithMany()
                         .HasForeignKey("userId");
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("masroufiServer.models.ApplicationUser", b =>
-                {
-                    b.Navigation("missions");
                 });
 #pragma warning restore 612, 618
         }

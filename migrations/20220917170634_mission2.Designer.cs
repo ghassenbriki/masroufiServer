@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using masroufiServer.models;
 
@@ -11,9 +12,11 @@ using masroufiServer.models;
 namespace masroufiServer.migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220917170634_mission2")]
+    partial class mission2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,13 +255,13 @@ namespace masroufiServer.migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3aeec4b2-33ef-4334-9ea7-b4f14239c832",
+                            ConcurrencyStamp = "b4cacce5-ee0b-4830-91c1-db02a7e2eee0",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7HMZMQStmta8h+LH/I48ZBN/waWLRN3cBJ6kmkou63elHOJTYlyXkn59YY9T6/HA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL8gLdT1Ob8DCsG8cmJtQtJa57dQvHevmyw/CqbcBZZ6WYkQofxtvUQF0KZEAhV0qQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4a5a749-e5c4-4d2f-8517-c5e07a2d7ba7",
+                            SecurityStamp = "53f2cf65-da3d-4239-9629-fa696f7b4d86",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             coins = 0

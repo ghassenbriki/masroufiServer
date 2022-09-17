@@ -13,6 +13,8 @@ namespace masroufiServer.models
 
         public string? ville { get; set; }
 
+        public IList<Mission>? missions {get;set;}
+
     }
 
     

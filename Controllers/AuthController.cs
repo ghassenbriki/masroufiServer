@@ -62,7 +62,7 @@ namespace masroufiServer.Controllers
                 var userFromDb = await _userManager.FindByNameAsync(requestModel.username);
                 await _userManager.AddToRoleAsync(userFromDb, "simpleUser");
 
-                responseModel.Response = new RegisterModel.Response()
+               /* responseModel.Response = new RegisterModel.Response()
                 {
                  
                     genre = requestModel.genre,
@@ -74,7 +74,7 @@ namespace masroufiServer.Controllers
                 };
 
 
-               /* var userRole = await _userManager.GetRolesAsync(user);
+               var userRole = await _userManager.GetRolesAsync(user);
 
                 responseModel.Response.role = userRole;*/
             
@@ -140,6 +140,9 @@ namespace masroufiServer.Controllers
             return  BadRequest(responseModel);
         }
         
+
+
+
 
 
 
