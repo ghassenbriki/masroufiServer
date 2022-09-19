@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-/*builder.WebHost.UseUrls("http://localhost:5001","http://192.168.43.186:5001");*/
+//builder.WebHost.UseUrls("http://localhost:5001");
 
 // Add services to the container.
 
@@ -22,7 +23,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddRoleManager<RoleManager<IdentityRole>>();
+    .AddRoleManager<RoleManager<IdentityRole>>().AddDefaultTokenProviders();
+
+
+builder.Services.AddAuthorization();
+
+
 
 builder.Services.Configure<IdentityOptions>(options =>
  {
@@ -49,7 +55,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.ToString());
+});
 
 
 
@@ -65,9 +74,17 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles(new StaticFileOptions { FileProvider=new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "vids")),
+    RequestPath="/vids"
 
+});
+/*app.UseCors(opt =>
+{
+    opt.WithOrigins("").AllowAnyMethod().AllowAnyHeader();
+});*/
 app.Run();

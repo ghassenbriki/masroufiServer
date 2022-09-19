@@ -1,137 +1,109 @@
 ﻿using masroufiServer.apiModels;
+using masroufiServer.migrations;
 using masroufiServer.models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Security.Claims;
-using System.Text;
 
 namespace masroufiServer.Controllers
 {
-
-
     [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
-
-        private readonly SignInManager<ApplicationUser> _signinManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+   
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _dbContext;
         private readonly IWebHostEnvironment hostEnvironment;
 
-        public AdminController(IConfiguration configuration, SignInManager<ApplicationUser> signinManager, UserManager<ApplicationUser> userManager, ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
+        public AdminController(IConfiguration configuration,  ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
 
         {
-            _signinManager = signinManager;
-            _userManager = userManager;
+           
             _configuration = configuration;
             _dbContext = db;
             this.hostEnvironment = hostEnvironment;
         }
 
-        [HttpPost]
-        [Route("Login")]
-
-        public async Task<ActionResult<ApiResponse<LoginModel.Response>>> Login(LoginModel.Request requestModel)
-
-        {
-
-
-            var responseModel = new ApiResponse<LoginModel.Response>();
-            ApplicationUser user;
-
-            user = await _userManager.FindByNameAsync(requestModel.username);
-
-            if (user == null)
-            {
-                responseModel.errorMessages.Add("vérifiez ton username");
-                return BadRequest(responseModel);
-            }
-            var result = await _signinManager.PasswordSignInAsync(user, requestModel.password, false, false);
-
-            if (result.Succeeded)
-            {
-
-
-                responseModel.Response = new LoginModel.Response()
-                {
-                    token = await JwtTokenGeneratorMachineAsync(user),
-
-                };
-
-
-                return Ok(responseModel);
-            }
-
-            responseModel.errorMessages.Add("mot de passe éronné");
-
-
-            return BadRequest(responseModel);
-
-        }
-
-
+        
+        //[Authorize(Roles ="admin")]
         [HttpGet]
-        [Route("missions/all")]
-        [Authorize(Roles = "admin")]
+        [Route("Missions")]
 
-        public async Task<ActionResult<Mission>> getAllMissions()
+        public async Task<ActionResult<IEnumerable<Mission>>> getAllMissions()
 
         {
 
 
-            var res = await _dbContext.Missions.ToListAsync();
 
-            if (res != null)
+            return await _dbContext.Missions.Select(x=>new Mission
+            {
+                Id = x.Id,
+                category=x.category,
+                Sponsor=x.Sponsor,
+                nbShare=x.nbShare,
+                nbView=x.nbView,
+                vidSource=String.Format("{0}://{1}{2}/vids/{3}",Request.Scheme,Request.Host,Request.PathBase,x.spot)
+               
+            }).ToListAsync();
 
-                return Ok(res);
 
-            else return BadRequest();
-
-
+            
         }
 
 
 
-        [Authorize(Roles = "admin")]
+       [Authorize(Roles = "admin")]
         [HttpPost]
-        [Route("mission")]
+        [Route("Mission")]
 
-        public async Task<ActionResult<ApiResponse<Mission>>> postMision([FromBody] MissionModel missionModel)
+        public async Task<ActionResult> postMision([FromForm] MissionModel missionModel)
 
         {
             var resp = new ApiResponse<Mission>();
             Mission mission;
 
-            mission = resp.Response=new Mission()
-             {
-                 coinsShare = missionModel.coinsShare,
-                 coinsview =missionModel.coinsView
-             };
+            mission = resp.Response = new Mission()
+            {
+                coinsShare = missionModel.coinsShare,
+                coinsview = missionModel.coinsView,
+                Sponsor = missionModel.Sponsor,
+                category =missionModel.category
+            };
 
             mission.spot = await saveVid(missionModel.vidName);
 
-        
-           _dbContext.Missions.Add(mission);
-            
+
+            _dbContext.Missions.Add(mission);
+
             await _dbContext.SaveChangesAsync();
 
-            return Ok(resp);
+            return Ok("mission posted succepully");
 
-            
-            
-
+        }
 
 
+
+        [Authorize(Roles = "admin")]
+        [HttpDelete("delete/{id}")]
+       
+
+        public async Task<ActionResult<Mission>> deleteMission(int id)
+
+        {
+            var mission=await _dbContext.Missions.FindAsync(id);
+            if(mission==null)
+            {
+                return NotFound();
+
+            }
+
+             _dbContext.Remove(mission);
+            await _dbContext.SaveChangesAsync();
+
+            return Ok(mission);
         }
 
 
@@ -147,38 +119,14 @@ namespace masroufiServer.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public async Task <string> saveVid(IFormFile vidfile)
+        [NonAction]
+        public async Task<string> saveVid(IFormFile vidfile)
         {
             string vidName = new string(Path.GetFileNameWithoutExtension(vidfile.FileName)
                 .Take(10).ToArray()).Replace(' ', '-');
-            vidName = vidName + DateTime.Now.ToString("yymmssfff")+ Path.GetExtension(vidfile.FileName);
+            vidName = vidName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(vidfile.FileName);
             var videoPath = Path.Combine(hostEnvironment.ContentRootPath, "vids", vidName);
-            using (var fileStream = new FileStream(videoPath, FileMode.Create)) 
+            using (var fileStream = new FileStream(videoPath, FileMode.Create))
             {
                 await vidfile.CopyToAsync(fileStream);
             }
@@ -186,45 +134,5 @@ namespace masroufiServer.Controllers
             return vidName;
 
         }
-        private async Task<string> JwtTokenGeneratorMachineAsync(ApplicationUser userInfo)
-        {
-            var claims = new List<Claim>
-    {
-         new Claim(ClaimTypes.NameIdentifier, userInfo.Id),
-         new Claim(ClaimTypes.Name, userInfo.UserName)
-    };
-            var roles = await _userManager.GetRolesAsync(userInfo);
-
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8
-             .GetBytes(_configuration.GetSection("AppSettings:Key").Value));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(3),
-                SigningCredentials = credentials
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
-        }
-
-
-
-
     }
-
-
-
-
-
 }

@@ -14,11 +14,18 @@ namespace masroufiServer.models
     }
 
         public DbSet<Mission> Missions { get; set; }
+       
+   
+        
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+        
+
 
             string ADMIN_ID = "02174cf0–9412–4cfe - afbf - 59f706d72cf6";
             string ROLE_ID = "341743f0 - asd2–42de - afbf - 59kmkkmk72cf6";

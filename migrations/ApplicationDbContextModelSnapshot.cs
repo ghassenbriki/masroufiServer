@@ -252,13 +252,13 @@ namespace masroufiServer.migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3aeec4b2-33ef-4334-9ea7-b4f14239c832",
+                            ConcurrencyStamp = "dd17d474-ccc1-4984-a48c-45e0af704838",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7HMZMQStmta8h+LH/I48ZBN/waWLRN3cBJ6kmkou63elHOJTYlyXkn59YY9T6/HA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBZFXBZv4Ett0db8PixNflejCIpdmwPNvcPTNdlOhDSkVinPJGtP0npZ3M+VJvcu2Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4a5a749-e5c4-4d2f-8517-c5e07a2d7ba7",
+                            SecurityStamp = "a4a3a39c-494f-46c4-9e57-45ea0860d1f6",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             coins = 0
@@ -273,27 +273,31 @@ namespace masroufiServer.migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Sponsor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("category")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("coinsShare")
                         .HasColumnType("int");
 
                     b.Property<int?>("coinsview")
                         .HasColumnType("int");
 
-                    b.Property<bool>("partagé")
-                        .HasColumnType("bit");
+                    b.Property<int>("nbShare")
+                        .HasColumnType("int");
+
+                    b.Property<int>("nbView")
+                        .HasColumnType("int");
 
                     b.Property<string>("spot")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("vu")
-                        .HasColumnType("bit");
+                    b.Property<string>("vidSource")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("userId");
 
                     b.ToTable("Missions");
                 });
@@ -347,20 +351,6 @@ namespace masroufiServer.migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("masroufiServer.models.Mission", b =>
-                {
-                    b.HasOne("masroufiServer.models.ApplicationUser", "user")
-                        .WithMany("missions")
-                        .HasForeignKey("userId");
-
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("masroufiServer.models.ApplicationUser", b =>
-                {
-                    b.Navigation("missions");
                 });
 #pragma warning restore 612, 618
         }
