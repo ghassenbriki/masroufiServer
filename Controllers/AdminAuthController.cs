@@ -38,15 +38,16 @@ namespace masroufiServer.Controllers
            
         }
 
+
         [HttpPost]
         [Route("Login")]
 
-        public async Task<ActionResult<ApiResponse<LoginModel.Response>>> Login(LoginModel.Request requestModel)
+        public async Task<ActionResult<APIResponse<LoginModel.Response>>> Login(LoginModel.Request requestModel)
 
         {
 
 
-            var responseModel = new ApiResponse<LoginModel.Response>();
+            var responseModel = new APIResponse<LoginModel.Response>();
             ApplicationUser user;
 
             user = await _userManager.FindByNameAsync(requestModel.username);
@@ -79,9 +80,9 @@ namespace masroufiServer.Controllers
 
         }
 
-      
-    
-  
+
+
+
 
 
 
@@ -92,12 +93,12 @@ namespace masroufiServer.Controllers
          new Claim(ClaimTypes.NameIdentifier, userInfo.Id),
          new Claim(ClaimTypes.Name, userInfo.UserName)
     };
-            var roles = await _userManager.GetRolesAsync(userInfo);
+            string? role = (await _userManager.GetRolesAsync(userInfo)).FirstOrDefault();
 
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+
+
+            claims.Add(new Claim(ClaimTypes.Role, role));
+
 
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8
@@ -116,6 +117,7 @@ namespace masroufiServer.Controllers
 
             return tokenHandler.WriteToken(token);
         }
+
 
 
 

@@ -1,16 +1,14 @@
 ﻿namespace masroufiServer.apiModels
 {
-    public class ApiResponse<T>
-        where T : new()
+    public class ApiResponse
+        
     {
     
-        public T? Response { get;  set; }
         public List<string> errorMessages { get; private set; }
 
         public bool success => errorMessages.Count == 0;
 
-        
-
+       
         public ApiResponse()
 
         {
@@ -19,5 +17,13 @@
         }
 
     
+    }
+    //we can make two classes with same name
+    public class APIResponse<T> : ApiResponse
+       where T : new()
+    {
+        
+        public T? Response { get; set; }
+
     }
 }

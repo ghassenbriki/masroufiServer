@@ -28,7 +28,7 @@ namespace masroufiServer.Controllers
         }
 
 
-
+       [Authorize(AuthenticationSchemes = "Bearer",Roles ="admin")]
         [HttpGet("missions")]
     
         public async Task<ActionResult<IEnumerable<Mission>>> getAllMissions()
@@ -58,16 +58,16 @@ namespace masroufiServer.Controllers
 
 
 
-       
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
         [HttpPost("mission")]
        
         public async Task<ActionResult> postMision([FromForm] MissionModel missionModel)
 
         {
-            var resp = new ApiResponse<Mission>();
-            Mission mission;
+           
 
-            mission = resp.Response = new Mission()
+            var  mission = new Mission()
             {
                 coinsShare = missionModel.coinsShare,
                 coinsview = missionModel.coinsView,
@@ -88,7 +88,7 @@ namespace masroufiServer.Controllers
 
 
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
         [HttpDelete("delete/{id}")]
        
 
@@ -111,6 +111,7 @@ namespace masroufiServer.Controllers
 
 
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
         [HttpGet("feedbacks")]
 
         public async Task<ActionResult<IEnumerable<Mission>>> getFeedbacks()

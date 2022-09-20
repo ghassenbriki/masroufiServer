@@ -34,13 +34,15 @@ namespace masroufiServer.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<ActionResult<ApiResponse<RegisterModel.Response>>> Register(RegisterModel.Request requestModel)
+        public async Task<ActionResult<APIResponse<RegisterModel.Response>>> Register(RegisterModel.Request requestModel)
         {
 
             if (!await _roleManager.RoleExistsAsync("simpleUser"))
             {
                 await _roleManager.CreateAsync(new IdentityRole("simpleUser"));
             }
+
+            var responseModel = new ApiResponse();
             var user = new ApplicationUser()
             {
                 UserName = requestModel.username,
@@ -53,7 +55,7 @@ namespace masroufiServer.Controllers
 
             var result = await _userManager.CreateAsync(user, requestModel.password);
 
-            var responseModel = new ApiResponse<RegisterModel.Response>();
+            
 
             if (result.Succeeded)
             {
@@ -62,21 +64,9 @@ namespace masroufiServer.Controllers
                 var userFromDb = await _userManager.FindByNameAsync(requestModel.username);
                 await _userManager.AddToRoleAsync(userFromDb, "simpleUser");
 
-               /* responseModel.Response = new RegisterModel.Response()
-                {
-                 
-                    genre = requestModel.genre,
-                    coins = user.coins,
-                    interrets = requestModel.interrets,
-                    token= await JwtTokenGeneratorMachineAsync(user)
+             
 
-
-                };
-
-
-               var userRole = await _userManager.GetRolesAsync(user);
-
-                responseModel.Response.role = userRole;*/
+               
             
           
 
@@ -100,9 +90,9 @@ namespace masroufiServer.Controllers
         
         [HttpPost]
         [Route("Login")]
-        public async Task<ActionResult<ApiResponse<LoginModel.Response>>> Login(LoginModel.Request requestModel)
+        public async Task<ActionResult<APIResponse<LoginModel.Response>>> Login(LoginModel.Request requestModel)
         {
-            var responseModel= new ApiResponse<LoginModel.Response>();
+            var responseModel= new APIResponse<LoginModel.Response>();
             ApplicationUser user;
 
 
@@ -153,12 +143,12 @@ namespace masroufiServer.Controllers
          new Claim(ClaimTypes.NameIdentifier, userInfo.Id),
          new Claim(ClaimTypes.Name, userInfo.UserName)
     };
-            var roles = await _userManager.GetRolesAsync(userInfo);
+            string? role = (await _userManager.GetRolesAsync(userInfo)).FirstOrDefault();
 
-            foreach (var role in roles)
-            {
+
+         
                 claims.Add(new Claim(ClaimTypes.Role, role));
-            }
+            
 
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8
