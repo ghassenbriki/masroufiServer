@@ -13,30 +13,30 @@ namespace masroufiServer.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-   
+
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _dbContext;
         private readonly IWebHostEnvironment hostEnvironment;
 
-        public AdminController(IConfiguration configuration,  ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
+        public AdminController(IConfiguration configuration, ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
 
         {
-           
+
             _configuration = configuration;
             _dbContext = db;
             this.hostEnvironment = hostEnvironment;
         }
 
-        
-        //[Authorize(Roles ="admin")]
-        [HttpGet]
-        [Route("Missions")]
 
+
+        [HttpGet("missions")]
+    
         public async Task<ActionResult<IEnumerable<Mission>>> getAllMissions()
 
         {
 
 
+       
 
             return await _dbContext.Missions.Select(x=>new Mission
             {
@@ -50,15 +50,17 @@ namespace masroufiServer.Controllers
             }).ToListAsync();
 
 
-            
+          
+
+
+
         }
 
 
 
-       [Authorize(Roles = "admin")]
-        [HttpPost]
-        [Route("Mission")]
-
+       
+        [HttpPost("mission")]
+       
         public async Task<ActionResult> postMision([FromForm] MissionModel missionModel)
 
         {
@@ -80,13 +82,13 @@ namespace masroufiServer.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok("mission posted succepully");
+            return Ok("mission ajoutée");
 
         }
 
 
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpDelete("delete/{id}")]
        
 
@@ -99,7 +101,7 @@ namespace masroufiServer.Controllers
                 return NotFound();
 
             }
-
+           
              _dbContext.Remove(mission);
             await _dbContext.SaveChangesAsync();
 
@@ -109,6 +111,17 @@ namespace masroufiServer.Controllers
 
 
 
+        [HttpGet("feedbacks")]
+
+        public async Task<ActionResult<IEnumerable<Mission>>> getFeedbacks()
+
+        {
+
+            return Ok(await _dbContext.FeedBacks.ToListAsync());
+
+          
+
+        }
 
 
 

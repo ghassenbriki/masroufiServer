@@ -22,6 +22,21 @@ namespace masroufiServer.migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ApplicationUserMission", b =>
+                {
+                    b.Property<int>("missionsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("usersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("missionsId", "usersId");
+
+                    b.HasIndex("usersId");
+
+                    b.ToTable("ApplicationUserMission");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -252,17 +267,36 @@ namespace masroufiServer.migrations
                         {
                             Id = "02174cf0–9412–4cfe - afbf - 59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dd17d474-ccc1-4984-a48c-45e0af704838",
+                            ConcurrencyStamp = "db8a7ab9-d134-40d9-a943-78c990d42014",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBZFXBZv4Ett0db8PixNflejCIpdmwPNvcPTNdlOhDSkVinPJGtP0npZ3M+VJvcu2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKp4A0rDCN+x9TpRLTvSbpUYR7W8WWYox0OT8eAISgDXCdY+x1q60B9GMLBuO4c5Hg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4a3a39c-494f-46c4-9e57-45ea0860d1f6",
+                            SecurityStamp = "9426fc01-aa4a-4a45-9822-371174df30ee",
                             TwoFactorEnabled = false,
                             UserName = "admin",
                             coins = 0
                         });
+                });
+
+            modelBuilder.Entity("masroufiServer.models.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FeedBacks");
                 });
 
             modelBuilder.Entity("masroufiServer.models.Mission", b =>
@@ -300,6 +334,21 @@ namespace masroufiServer.migrations
                     b.HasKey("Id");
 
                     b.ToTable("Missions");
+                });
+
+            modelBuilder.Entity("ApplicationUserMission", b =>
+                {
+                    b.HasOne("masroufiServer.models.Mission", null)
+                        .WithMany()
+                        .HasForeignKey("missionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("masroufiServer.models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("usersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

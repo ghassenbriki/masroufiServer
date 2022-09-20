@@ -14,6 +14,11 @@ namespace masroufiServer.models
     }
 
         public DbSet<Mission> Missions { get; set; }
+
+        public DbSet<ApplicationUser> users { get; set; }
+
+        public DbSet<Feedback> FeedBacks { get; set; }
+
        
    
         
@@ -24,7 +29,9 @@ namespace masroufiServer.models
         {
             base.OnModelCreating(builder);
 
-        
+
+           
+
 
 
             string ADMIN_ID = "02174cf0–9412–4cfe - afbf - 59f706d72cf6";
