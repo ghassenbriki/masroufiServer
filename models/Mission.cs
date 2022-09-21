@@ -27,7 +27,7 @@ namespace masroufiServer.models
         public string? category { get; set; }
 
 
-        public ICollection<ApplicationUser>? users { get; set; }
+        public ICollection<ApplicationUser> users { get; set; }
 
 
 
