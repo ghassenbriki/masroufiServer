@@ -28,17 +28,23 @@ namespace masroufiServer.Controllers
 
 
 
- 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "simpleUser")]
         [HttpGet]
         [Route("filtredMissions")]
         
-        public  IEnumerable<Mission> getMissions()
+        public  async Task<ActionResult <IEnumerable<Mission>>> getMissions()
         {
-            var interrets = "sport it tech";
 
-            var tab = interrets.Split(" ");
+               var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            return _dbContext.Missions.Where(x => tab.Contains(x.category));
+                var tab = user.interrets.Split(" ");
+
+         
+
+                return Ok(_dbContext.Missions.Where(x => tab.Contains(x.category)));
+           
+
+    
 
 
         }

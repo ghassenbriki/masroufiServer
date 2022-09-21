@@ -83,8 +83,9 @@ app.UseStaticFiles(new StaticFileOptions { FileProvider=new PhysicalFileProvider
     RequestPath="/vids"
 
 });
-/*app.UseCors(opt =>
+
+app.UseCors(opt =>
 {
     opt.WithOrigins("").AllowAnyMethod().AllowAnyHeader();
-});*/
+});
 app.Run();
