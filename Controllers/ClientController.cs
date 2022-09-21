@@ -40,59 +40,60 @@ namespace masroufiServer.Controllers
                 var tab = user.interrets.Split(" ");
 
 
-
             return Ok(_dbContext.Missions.Where(x => tab.Contains(x.category))
                                           .Where(x=>!x.users.Contains(user)));
-           
 
-    
+
+
         }
-        
-/*
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "simpleUser")]
-        [HttpPost]
-        [Route("spotview")]
-
-        public async Task <ActionResult> ViewMission()
-        {
-            
-
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            user.missions = new List<Mission>();
-
-            var mission = new Mission()
-            {
-                category = "sport",
-                coinsShare = 70,
-                coinsview = 40,
-                Sponsor="deze"
-            };
-
-
-            user.coins += (int)(mission.coinsview);
-            user.missions.Add(mission);
-          
-
-            _dbContext.SaveChanges();
-
-           
-
-                return Ok(mission);
-
-
-
 
        
 
+    
+            [Authorize(AuthenticationSchemes = "Bearer", Roles = "simpleUser")]
+            [HttpPost]
+            [Route("spotview/{missionId:int}")]
 
-        }
+            public async Task <ActionResult> ViewMission(int missionId)
+            {
 
 
-        */
+            var  mission = await _dbContext.Missions.FindAsync(missionId);
+            
 
 
-        [HttpPost("Feedback")]
+            if (mission==null)
+
+            {
+                return NotFound();
+            }
+
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                 user.missions = new List<Mission>();
+
+                user.coins += (int)(mission.coinsview);
+                user.missions.Add(mission);
+
+
+                _dbContext.SaveChanges();
+
+
+
+                    return Ok(mission);
+
+
+
+
+
+
+
+            }
+
+
+            
+
+
+    [HttpPost("Feedback")]
 
         public async Task<IActionResult> postFeedback([FromBody] FeedbackModel feedbackModel)
 
