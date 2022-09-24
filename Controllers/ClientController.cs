@@ -79,7 +79,7 @@ namespace masroufiServer.Controllers
 
 
 
-                    return Ok(mission);
+                    return Ok($"bravo , vouz avez atteint +{mission.coinsview} coins");
 
 
 

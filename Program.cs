@@ -11,7 +11,13 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+
 //builder.WebHost.UseUrls("http://localhost:5001");
 
 // Add services to the container.
@@ -30,6 +36,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 
 builder.Services.AddAuthorization();
+
 
 
 
@@ -56,14 +63,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                 });
 
-builder.Services.AddControllers(options =>
-{
-    options.OutputFormatters.RemoveType<SystemTextJsonOutputFormatter>();
-    options.OutputFormatters.Add(new SystemTextJsonOutputFormatter(new JsonSerializerOptions(JsonSerializerDefaults.Web)
-    {
-        ReferenceHandler = ReferenceHandler.Preserve,
-    }));
-});
+
+builder.Services.AddCors();
+
+builder.Services.AddControllers();
+
+
+
+
+
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -75,6 +85,11 @@ builder.Services.AddSwaggerGen(options =>
 
 
 var app = builder.Build();
+
+
+app.UseCors(options => options.WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -95,8 +110,12 @@ app.UseStaticFiles(new StaticFileOptions { FileProvider=new PhysicalFileProvider
 
 });
 
-app.UseCors(opt =>
-{
-    opt.WithOrigins("").AllowAnyMethod().AllowAnyHeader();
-});
+
+
+
+
+
+
+
+
 app.Run();
