@@ -10,12 +10,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-
-
+using masroufiServer.hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
+
+builder.Services.AddSignalR();
 
 
 //builder.WebHost.UseUrls("http://localhost:5001");
@@ -87,7 +88,7 @@ builder.Services.AddSwaggerGen(options =>
 var app = builder.Build();
 
 
-app.UseCors(options => options.WithOrigins("http://localhost:3000")
+app.UseCors(options => options.WithOrigins("http://localhost:4200")
                .AllowAnyMethod()
                .AllowAnyHeader());
 
@@ -103,6 +104,14 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<MissionHub>("/missions");
+});
+
+
 
 app.MapControllers();
 app.UseStaticFiles(new StaticFileOptions { FileProvider=new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "vids")),

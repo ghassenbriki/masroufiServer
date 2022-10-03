@@ -59,7 +59,7 @@ namespace masroufiServer.Controllers
 
 
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
+       // [Authorize(AuthenticationSchemes = "Bearer", Roles = "admin")]
         [HttpPost("mission")]
        
         public async Task<ActionResult> postMision([FromForm] MissionModel missionModel)
@@ -77,12 +77,16 @@ namespace masroufiServer.Controllers
 
             mission.spot = await saveVid(missionModel.vidName);
 
+            
+                _dbContext.Missions.Add(mission);
 
-            _dbContext.Missions.Add(mission);
+                await _dbContext.SaveChangesAsync();
 
-            await _dbContext.SaveChangesAsync();
+                   return Ok(mission);
+            
 
-            return Ok("mission ajoutée");
+            
+           
 
         }
 

@@ -54,7 +54,7 @@ namespace masroufiServer.Controllers
             [HttpPost]
             [Route("spotview/{missionId:int}")]
 
-            public async Task <ActionResult> ViewMission(int missionId)
+            public async Task <ActionResult<Mission>> ViewMission(int missionId)
             {
 
 
@@ -79,7 +79,7 @@ namespace masroufiServer.Controllers
 
 
 
-                    return Ok($"bravo , vouz avez atteint +{mission.coinsview} coins");
+                    return Ok (mission);
 
 
 
@@ -95,11 +95,11 @@ namespace masroufiServer.Controllers
 
     [HttpPost("Feedback")]
 
-        public async Task<IActionResult> postFeedback([FromBody] FeedbackModel feedbackModel)
+        public async Task<ActionResult<Feedback>> postFeedback([FromBody] FeedbackModel feedbackModel)
 
         {
 
-         
+       
              Feedback _feedback;
 
             _feedback = new Feedback()
@@ -112,7 +112,7 @@ namespace masroufiServer.Controllers
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok("votre feedback a été envoyé ");
+            return Ok(_feedback);
 
 
 
