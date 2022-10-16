@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "iRfcic54vhPxiDHnZJO0zlHq71JG6x8nzjM6qEuEUjU/y4CLjM/9kGHU3L+OdD6uOeiIsu76/nbXrb005oJxLA==",
+  "dgSpecHash": "jtUrDJg/FVtHzGLiU4+IPumVW46WdNAIgTBvzBfzHTkbIKK20BHu1RdaF2+PZQEGGTV+Rxl9ziZJTysCUIk6rw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Hp\\Desktop\\app\\masroufiServer\\masroufiServer.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.cookies\\2.2.0\\microsoft.aspnetcore.authentication.cookies.2.2.0.nupkg.sha512",
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.2.0\\microsoft.aspnetcore.authentication.core.2.2.0.nupkg.sha512",
+    "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.facebook\\6.0.10\\microsoft.aspnetcore.authentication.facebook.6.0.10.nupkg.sha512",
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.8\\microsoft.aspnetcore.authentication.jwtbearer.6.0.8.nupkg.sha512",
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.authorization\\2.2.0\\microsoft.aspnetcore.authorization.2.2.0.nupkg.sha512",
     "C:\\Users\\Hp\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\2.2.0\\microsoft.aspnetcore.connections.abstractions.2.2.0.nupkg.sha512",

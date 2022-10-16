@@ -41,7 +41,7 @@ namespace masroufiServer.Controllers
 
 
             return Ok(_dbContext.Missions.Where(x => tab.Contains(x.category))
-                                          .Where(x=>!x.users.Contains(user)));
+                                         .Where(x=>!x.users.Contains(user)));
 
 
 
@@ -95,7 +95,7 @@ namespace masroufiServer.Controllers
 
     [HttpPost("Feedback")]
 
-        public async Task<ActionResult<Feedback>> postFeedback([FromBody] FeedbackModel feedbackModel)
+        public async Task<ActionResult<Mission>> postFeedback([FromBody] FeedbackModel feedbackModel)
 
         {
 

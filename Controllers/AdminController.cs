@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace masroufiServer.Controllers
 {
@@ -45,7 +46,8 @@ namespace masroufiServer.Controllers
                 Sponsor=x.Sponsor,
                 nbShare=x.nbShare,
                 nbView=x.nbView,
-                vidSource=String.Format("{0}://{1}{2}/vids/{3}",Request.Scheme,Request.Host,Request.PathBase,x.spot)
+               // vidSource=String.Format("{0}://{1}{2}/vids/{3}",Request.Scheme,Request.Host,Request.PathBase,x.spot)
+               vidSource=x.vidSource
                
             }).ToListAsync();
 
@@ -77,7 +79,10 @@ namespace masroufiServer.Controllers
 
             mission.spot = await saveVid(missionModel.vidName);
 
-            
+            mission.vidSource = "http://192.168.43.186:5001/vids/" + mission.spot;
+
+
+
                 _dbContext.Missions.Add(mission);
 
                 await _dbContext.SaveChangesAsync();

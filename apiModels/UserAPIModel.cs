@@ -8,7 +8,7 @@
 
         public string? ville { get; set; }
 
-        public string? numTel { get; set; }
+       // public string? numTel { get; set; }
     }
 
 

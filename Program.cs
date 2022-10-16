@@ -62,12 +62,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         ValidateAudience = false
                     };
 
+                }).AddFacebook(options=>
+                {
+                    options.AppId = "791954841862094";
+                    options.AppSecret = "c3e02217769ecd359bba937c874baee0";
+                   // options.AccessDeniedPath = "/AccessDeniedPathInfo";
                 });
 
 
 builder.Services.AddCors();
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.WriteIndented = true;
+});
 
 
 
@@ -99,7 +109,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseRouting();
 app.UseAuthentication();
